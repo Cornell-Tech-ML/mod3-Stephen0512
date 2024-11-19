@@ -46,22 +46,17 @@ def index_to_position(index: Index, strides: Strides) -> int:
         Position in storage
 
     """
-    # Declare a variable to store the stride index
-    stride_index = 0
-
-    # Find the shortest length between index and strides
-    shortest_length = 0
-    if len(index) < len(strides):
-        shortest_length = len(index)
-    else:
-        shortest_length = len(strides)
-
-    # Iterate over the index, multiplying the index by the stride at corresponding position and adding it to the stride index
-    for i in range(shortest_length):
-        stride_index += index[i] * strides[i]
-
-    # Return the stride index
-    return stride_index
+    # Initialize position to 0
+    stride_position = 0
+    
+    # Iterate through corresponding indices and strides simultaneously
+    for index, stride in zip(index, strides):
+        # For each dimension, multiply index by stride and add to position
+        # This converts multidimensional index to flat position using strides
+        stride_position += index * stride
+        
+    # Return the calculated flat position in storage
+    return stride_position
 
 
 def to_index(ordinal: int, shape: Shape, out_index: OutIndex) -> None:
@@ -77,16 +72,20 @@ def to_index(ordinal: int, shape: Shape, out_index: OutIndex) -> None:
         out_index : return index corresponding to position
 
     """
-    # Calculate the strides from the shape
-    strides = strides_from_shape(list(shape))
-
-    # Iterate through the strides and calculate the index for each dimension
-    for i in range(len(strides)):
-        # Calculate the index for the current dimension
-        out_index[i] = ordinal // strides[i]
-
-        # Update the ordinal for the next dimension using the remainder
-        ordinal = ordinal % strides[i]
+    # Start with the ordinal number we want to convert
+    remaining_ordinal = ordinal + 0
+    
+    # Iterate through dimensions from right to left (least significant to most significant)
+    for dimension in range(len(shape) - 1, -1, -1):
+        # Get the size of current dimension
+        dimension_size = shape[dimension]
+        
+        # Extract index for current dimension using modulo (remainder)
+        # Convert to int to ensure integer type
+        out_index[dimension] = int(remaining_ordinal % dimension_size)
+        
+        # Integer divide to get remaining ordinal for next dimensions
+        remaining_ordinal = remaining_ordinal // dimension_size
 
 
 def broadcast_index(

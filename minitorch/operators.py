@@ -158,9 +158,7 @@ def is_close(num_1: float, num_2: float) -> bool:
         The return value. True if the absolute difference between num_1 and num_2 is less than 1e-2, False otherwise.
 
     """
-    return (
-        abs(num_1 - num_2) < 1e-2
-    )  # 1e-2 is the tolerance for close numbers ($f(x) = |x - y| < 1e-2$)
+    return (num_1 - num_2 < 1e-2) and (num_2 - num_1 < 1e-2)  # 1e-2 is the tolerance for close numbers ($f(x) = |x - y| < 1e-2$)
 
 
 def sigmoid(num: float) -> float:
@@ -193,7 +191,7 @@ def relu(num: float) -> float:
         The ReLU result of the input float number.
 
     """
-    return max(0.0, num)
+    return num if num > 0 else 0.0
 
 
 # Define a constant for the tolerance of close numbers

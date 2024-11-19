@@ -168,8 +168,39 @@ def tensor_map(
         in_shape: Shape,
         in_strides: Strides,
     ) -> None:
-        # TODO: Implement for Task 3.1.
-        raise NotImplementedError("Need to implement for Task 3.1")
+        # Check if the tensors are stride-aligned
+        if (
+            len(out_strides) == len(in_strides)
+            and np.array_equal(out_strides, in_strides)
+            and np.array_equal(out_shape, in_shape)
+        ):
+            # Fast path: tensors are stride-aligned, avoid indexing
+            for i in prange(out.size):
+                out[i] = fn(in_storage[i])
+            return
+
+        # Slow path: tensors are not stride-aligned
+        # Calculate total number of elements to process
+        size = np.prod(out_shape)
+
+        # Process each element in parallel
+        for i in prange(size):
+            # Initialize index arrays for input and output tensors
+            out_index = np.zeros(MAX_DIMS, np.int32)  # Output tensor index
+            in_index = np.zeros(MAX_DIMS, np.int32)   # Input tensor index
+            
+            # Convert flat index i to tensor indices for output tensor
+            to_index(i, out_shape, out_index)
+            
+            # Handle broadcasting between tensors to get input tensor index
+            broadcast_index(out_index, out_shape, in_shape, in_index)
+            
+            # Convert indices to positions in storage
+            in_pos = index_to_position(in_index, in_strides)   # Input position
+            out_pos = index_to_position(out_index, out_strides) # Output position
+            
+            # Apply function and store result
+            out[out_pos] = fn(in_storage[in_pos])
 
     return njit(_map, parallel=True)  # type: ignore
 
@@ -208,8 +239,44 @@ def tensor_zip(
         b_shape: Shape,
         b_strides: Strides,
     ) -> None:
-        # TODO: Implement for Task 3.1.
-        raise NotImplementedError("Need to implement for Task 3.1")
+        # Check if the tensors are stride-aligned
+        if (
+            len(out_strides) == len(a_strides) == len(b_strides)
+            and np.array_equal(out_strides, a_strides)
+            and np.array_equal(out_strides, b_strides)
+            and np.array_equal(out_shape, a_shape)
+            and np.array_equal(out_shape, b_shape)
+        ):
+            # Fast path: tensors are stride-aligned, avoid indexing
+            for i in prange(out.size):
+                out[i] = fn(a_storage[i], b_storage[i])
+            return
+
+        # Slow path: tensors are not stride-aligned
+        # Calculate total number of elements to process
+        size = np.prod(out_shape)
+
+        # Process each element in parallel
+        for i in prange(size):
+            # Initialize index arrays for input and output tensors
+            out_index = np.zeros(MAX_DIMS, np.int32)  # Output tensor index
+            a_index = np.zeros(MAX_DIMS, np.int32)    # First input tensor index
+            b_index = np.zeros(MAX_DIMS, np.int32)    # Second input tensor index
+
+            # Convert flat index i to tensor indices for output tensor
+            to_index(i, out_shape, out_index)
+
+            # Handle broadcasting between tensors to get input tensor indices
+            broadcast_index(out_index, out_shape, a_shape, a_index)
+            broadcast_index(out_index, out_shape, b_shape, b_index)
+
+            # Convert indices to positions in storage
+            a_pos = index_to_position(a_index, a_strides)     # First input position
+            b_pos = index_to_position(b_index, b_strides)     # Second input position
+            out_pos = index_to_position(out_index, out_strides) # Output position
+
+            # Apply function and store result
+            out[out_pos] = fn(a_storage[a_pos], b_storage[b_pos])
 
     return njit(_zip, parallel=True)  # type: ignore
 
@@ -244,8 +311,41 @@ def tensor_reduce(
         a_strides: Strides,
         reduce_dim: int,
     ) -> None:
-        # TODO: Implement for Task 3.1.
-        raise NotImplementedError("Need to implement for Task 3.1")
+        # Calculate total number of elements to process
+        size = np.prod(out_shape)
+
+        # Calculate the size of the reduction dimension for the inner loop
+        reduce_size = a_shape[reduce_dim]
+
+        # Process each output position in parallel
+        for i in prange(size):
+            # Create index buffers
+            index = np.zeros(MAX_DIMS, np.int32)  # Tensor index for output first and then for input
+
+            # Convert flat index to output index
+            to_index(i, out_shape, index)
+
+            # Convert output index to position in output tensor storage for final output update
+            out_pos = index_to_position(index, out_strides)
+
+            # Initialize reduction with first element of the reduction dimension in input tensor
+            index[reduce_dim] = 0
+            in_pos = index_to_position(index, a_strides)  # Convert index to position in input tensor storage
+
+            # Initialize accumulated value with the first element of the reduction dimension in input tensor
+            accumulated_value = a_storage[in_pos]
+
+            # Inner reduction loop for each element in the reduction dimension (apart from the first one)
+            for j in range(1, reduce_size):
+                # Update index for next position in reduction dimension
+                index[reduce_dim] = j
+                in_pos = index_to_position(index, a_strides)
+
+                # Apply reduction function to accumulate result
+                accumulated_value = fn(accumulated_value, a_storage[in_pos])
+
+            # Write final accumulated result to output tensor storage
+            out[out_pos] = accumulated_value
 
     return njit(_reduce, parallel=True)  # type: ignore
 
