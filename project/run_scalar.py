@@ -7,11 +7,23 @@ import random
 
 import minitorch
 
+# Define the input and output sizes
+INPUT_SIZE = 2
+OUTPUT_SIZE = 1
+
 
 class Network(minitorch.Module):
     def __init__(self, hidden_layers):
         super().__init__()
-        raise NotImplementedError("Need to include this file from past assignment.")
+
+        # Create the first layer with the specified input and hidden layer sizes
+        self.layer1 = Linear(INPUT_SIZE, hidden_layers)
+
+        # Create the second layer with the specified hidden layer size
+        self.layer2 = Linear(hidden_layers, hidden_layers)
+
+        # Create the third layer with the specified hidden and output layer sizes
+        self.layer3 = Linear(hidden_layers, OUTPUT_SIZE)
 
     def forward(self, x):
         middle = [h.relu() for h in self.layer1.forward(x)]
@@ -40,7 +52,25 @@ class Linear(minitorch.Module):
             )
 
     def forward(self, inputs):
-        raise NotImplementedError("Need to include this file from past assignment.")
+        # Initialize an empty list to store the output for each neuron
+        outputs = []
+
+        # Iterate over each output neuron (j is the index of the output neuron)
+        for j in range(len(self.bias)):
+            # Start with the bias term for this neuron
+            output = self.bias[j].value
+
+            # Iterate over each input and its corresponding weight
+            for i, inp in enumerate(inputs):
+
+                # Add the product of the input and its weight to the output
+                output = output + self.weights[i][j].value * inp
+
+            # Append the computed output for this neuron to the outputs list
+            outputs.append(output)
+
+        # Return the list of outputs (one for each output neuron)
+        return outputs
 
 
 def default_log_fn(epoch, total_loss, correct, losses):
