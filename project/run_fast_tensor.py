@@ -70,6 +70,9 @@ class FastTrain:
         BATCH = 10
         losses = []
 
+        # Start timing the first epoch
+        start_time = time.time()
+
         for epoch in range(max_epochs):
             total_loss = 0.0
             c = list(zip(data.X, data.y))
@@ -102,6 +105,9 @@ class FastTrain:
                 correct = int(((out.detach() > 0.5) == y2).sum()[0])
                 log_fn(epoch, total_loss, correct, losses)
 
+        # End timing the last epoch
+        end_time = time.time()
+        print("Time per epoch:", end_time - start_time, "seconds")
 
 if __name__ == "__main__":
     import argparse
