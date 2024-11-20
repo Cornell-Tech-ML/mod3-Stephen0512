@@ -39,7 +39,7 @@ The terminal command used to run the parallel analytics script parallel_check.py
 python project/parallel_check.py
 ```
 
-The output of the parallel analytics script from the terminal is as follows:
+The diagnostics output of the parallel analytics script from the terminal is as follows:
 
 ```console
 MAP
