@@ -476,3 +476,391 @@ Allocation hoisting:
 No allocation hoisting found
 None
 ```
+
+## Task 2.5: Model Trainings
+
+Two models were trained for each of the following datasets using CPU and GPU in Google Colab's GPU setup: Simple, Split, and XOR.
+
+Several models were trained for each dataset with the same configuration, and the best results are included below for this part of the assignment.
+
+### Task 2.5.1: Simple Dataset Model Training
+
+#### Model Training Configuration
+
+- Number of points: 50
+- Size of hidden layer: 100
+- Learning rate: 0.05
+- Number of epochs: 500
+
+#### CPU Model Training Result
+
+##### Command used:
+
+```bash
+!cd $DIR; PYTHONPATH=/content/$DIR python3.11 project/run_fast_tensor.py --BACKEND cpu --HIDDEN 100 --DATASET simple --RATE 0.05
+```
+
+##### Resulted Time Per Epoch
+
+- Time per epoch: 0.14159s
+
+##### Output logs:
+
+```console
+Epoch  0  loss  9.400616814835383 correct 36
+Epoch  10  loss  1.5833925528594972 correct 46
+Epoch  20  loss  0.8033727623073732 correct 48
+Epoch  30  loss  2.181663084881539 correct 48
+Epoch  40  loss  1.3709837009904808 correct 49
+Epoch  50  loss  1.121565921296268 correct 49
+Epoch  60  loss  1.059402966082776 correct 49
+Epoch  70  loss  0.7268074719132201 correct 50
+Epoch  80  loss  0.2750735328662339 correct 49
+Epoch  90  loss  0.7335653763236831 correct 49
+Epoch  100  loss  0.31474121680844463 correct 50
+Epoch  110  loss  0.36347241697870863 correct 49
+Epoch  120  loss  0.37711988813392017 correct 50
+Epoch  130  loss  0.5795507912669864 correct 49
+Epoch  140  loss  1.2268163006902726 correct 49
+Epoch  150  loss  0.38539331216869954 correct 50
+Epoch  160  loss  1.2509134771348112 correct 49
+Epoch  170  loss  0.009587360895539753 correct 48
+Epoch  180  loss  1.1379073864103029 correct 50
+Epoch  190  loss  0.6119981514223999 correct 49
+Epoch  200  loss  0.08406249156874582 correct 50
+Epoch  210  loss  0.1500414289935695 correct 50
+Epoch  220  loss  0.39101834637440636 correct 49
+Epoch  230  loss  0.2476367286877214 correct 49
+Epoch  240  loss  0.6716398374696104 correct 50
+Epoch  250  loss  0.0475882219387694 correct 49
+Epoch  260  loss  0.21042151104858292 correct 49
+Epoch  270  loss  0.8514013597085501 correct 49
+Epoch  280  loss  0.1537635621325783 correct 49
+Epoch  290  loss  0.06825685072210368 correct 49
+Epoch  300  loss  0.3945544571330625 correct 49
+Epoch  310  loss  0.7319965952163006 correct 50
+Epoch  320  loss  0.886033008515392 correct 49
+Epoch  330  loss  0.15898086975450346 correct 49
+Epoch  340  loss  0.12269576427348257 correct 50
+Epoch  350  loss  0.2187264557886995 correct 49
+Epoch  360  loss  0.6543554038622658 correct 50
+Epoch  370  loss  1.0453764422568632 correct 49
+Epoch  380  loss  1.161796864333725 correct 50
+Epoch  390  loss  0.2018117839235016 correct 49
+Epoch  400  loss  0.6794099525178102 correct 50
+Epoch  410  loss  0.028339995009706586 correct 50
+Epoch  420  loss  0.3763310297379277 correct 49
+Epoch  430  loss  0.058509050046136754 correct 50
+Epoch  440  loss  0.9677776359477085 correct 50
+Epoch  450  loss  0.8017641448620723 correct 50
+Epoch  460  loss  0.7509906772826311 correct 50
+Epoch  470  loss  0.3455250900638234 correct 50
+Epoch  480  loss  0.058274616167516606 correct 50
+Epoch  490  loss  0.17829775664636974 correct 50
+Time per epoch: 0.14158626127243043 seconds
+```
+
+#### GPU Model Training Result
+
+##### Command used:
+
+```bash
+!cd $DIR; PYTHONPATH=/content/$DIR python3.11 project/run_fast_tensor.py --BACKEND gpu --HIDDEN 100 --DATASET simple --RATE 0.05
+```
+
+##### Resulted Time Per Epoch
+
+- Time per epoch: to be added...
+
+##### Output logs:
+
+```console
+to be added...
+```
+
+### Task 2.5.2: Split Dataset Model Training
+
+#### Model Training Configuration
+
+- Number of points: 50
+- Size of hidden layer: 100
+- Learning rate: 0.05
+- Number of epochs: 500
+
+#### CPU Model Training Result
+
+##### Command used:
+
+```bash
+!cd $DIR; PYTHONPATH=/content/$DIR python3.11 project/run_fast_tensor.py --BACKEND cpu --HIDDEN 100 --DATASET split --RATE 0.05
+```
+
+##### Resulted Time Per Epoch
+
+- Time per epoch: 0.13744s
+
+##### Output logs:
+
+```console
+Epoch  0  loss  7.770038247455205 correct 26
+Epoch  10  loss  7.118559635027194 correct 43
+Epoch  20  loss  6.227517428823506 correct 42
+Epoch  30  loss  4.022680024813758 correct 45
+Epoch  40  loss  4.069979632193774 correct 47
+Epoch  50  loss  3.1010444803368107 correct 46
+Epoch  60  loss  3.4609087997606784 correct 50
+Epoch  70  loss  2.5833040799800573 correct 48
+Epoch  80  loss  2.6768432650877267 correct 49
+Epoch  90  loss  1.2162799641531747 correct 48
+Epoch  100  loss  1.4876963041597193 correct 50
+Epoch  110  loss  0.7200835577232305 correct 48
+Epoch  120  loss  1.20013992452978 correct 50
+Epoch  130  loss  1.2409467532346603 correct 50
+Epoch  140  loss  0.8022590983976798 correct 50
+Epoch  150  loss  1.4416032269497776 correct 50
+Epoch  160  loss  0.5152863094243957 correct 50
+Epoch  170  loss  0.6144135114870541 correct 50
+Epoch  180  loss  0.3257852228667009 correct 50
+Epoch  190  loss  0.4300947341095828 correct 50
+Epoch  200  loss  0.44895441615965515 correct 50
+Epoch  210  loss  1.0111194835995048 correct 50
+Epoch  220  loss  0.7655668135303636 correct 50
+Epoch  230  loss  0.4433794236516998 correct 50
+Epoch  240  loss  0.2595219494907319 correct 50
+Epoch  250  loss  0.40250267803764667 correct 50
+Epoch  260  loss  0.25675448116754035 correct 50
+Epoch  270  loss  0.36268259945732206 correct 50
+Epoch  280  loss  0.48460940375768585 correct 50
+Epoch  290  loss  0.24752631708406606 correct 50
+Epoch  300  loss  0.059803992162497745 correct 50
+Epoch  310  loss  0.5023992721954529 correct 50
+Epoch  320  loss  0.3575245922008051 correct 50
+Epoch  330  loss  0.03141163991174711 correct 50
+Epoch  340  loss  0.3971080988484158 correct 50
+Epoch  350  loss  0.06221017031821714 correct 50
+Epoch  360  loss  0.051207519051606046 correct 50
+Epoch  370  loss  0.5083717378943033 correct 50
+Epoch  380  loss  0.37919302006559275 correct 50
+Epoch  390  loss  0.3690727697385319 correct 50
+Epoch  400  loss  0.15762415385809642 correct 50
+Epoch  410  loss  0.43365781438005035 correct 50
+Epoch  420  loss  0.3024658612257021 correct 50
+Epoch  430  loss  0.340510497140175 correct 50
+Epoch  440  loss  0.25334954970799545 correct 50
+Epoch  450  loss  0.27156641079875554 correct 50
+Epoch  460  loss  0.17466032764322292 correct 50
+Epoch  470  loss  0.27835552886038606 correct 50
+Epoch  480  loss  0.23349397165407915 correct 50
+Epoch  490  loss  0.2424684042379801 correct 50
+Time per epoch: 0.13743920278549193 seconds
+```
+
+#### GPU Model Training Result
+
+##### Command used:
+
+```bash
+!cd $DIR; PYTHONPATH=/content/$DIR python3.11 project/run_fast_tensor.py --BACKEND gpu --HIDDEN 100 --DATASET split --RATE 0.05
+```
+
+##### Resulted Time Per Epoch
+
+- Time per epoch: to be added...
+
+##### Output logs:
+
+```console
+to be added...
+```
+
+### Task 2.5.3: XOR Dataset Model Training
+
+#### Model Training Configuration
+
+- Number of points: 50
+- Size of hidden layer: 100
+- Learning rate: 0.05
+- Number of epochs: 500
+
+#### CPU Model Training Result
+
+##### Command used:
+
+```bash
+!cd $DIR; PYTHONPATH=/content/$DIR python3.11 project/run_fast_tensor.py --BACKEND cpu --HIDDEN 100 --DATASET xor --RATE 0.05
+```
+
+##### Resulted Time Per Epoch
+
+- Time per epoch: 0.13798s
+
+##### Output logs:
+
+```console
+Epoch  0  loss  7.571220737043088 correct 28
+Epoch  10  loss  4.723169194424073 correct 36
+Epoch  20  loss  4.44512142312101 correct 36
+Epoch  30  loss  4.772882445185869 correct 44
+Epoch  40  loss  3.826549920228981 correct 45
+Epoch  50  loss  2.156360599444318 correct 41
+Epoch  60  loss  1.791871504345767 correct 39
+Epoch  70  loss  4.442584806487662 correct 44
+Epoch  80  loss  2.3646817313155446 correct 47
+Epoch  90  loss  2.077618621018851 correct 50
+Epoch  100  loss  1.853705953202932 correct 47
+Epoch  110  loss  2.245249815189637 correct 47
+Epoch  120  loss  1.7428612972518818 correct 50
+Epoch  130  loss  2.4457602415877475 correct 49
+Epoch  140  loss  1.104478404355583 correct 46
+Epoch  150  loss  2.376392034561654 correct 48
+Epoch  160  loss  1.9488866670453593 correct 50
+Epoch  170  loss  1.659120362855388 correct 49
+Epoch  180  loss  2.1691012142903334 correct 47
+Epoch  190  loss  1.207543091621801 correct 50
+Epoch  200  loss  0.41696379790691035 correct 48
+Epoch  210  loss  1.088984619793311 correct 49
+Epoch  220  loss  2.0401871463829084 correct 49
+Epoch  230  loss  1.5711295534552951 correct 50
+Epoch  240  loss  0.35553248415397853 correct 50
+Epoch  250  loss  1.2531707931896623 correct 50
+Epoch  260  loss  0.9130762200682444 correct 49
+Epoch  270  loss  1.0825340895587152 correct 50
+Epoch  280  loss  0.7048083893208021 correct 49
+Epoch  290  loss  0.9350083765418906 correct 50
+Epoch  300  loss  1.1869513278449944 correct 50
+Epoch  310  loss  0.8351736543830424 correct 50
+Epoch  320  loss  0.5618033154666471 correct 50
+Epoch  330  loss  1.1114971227225872 correct 49
+Epoch  340  loss  0.813889355416295 correct 50
+Epoch  350  loss  1.6420528038217326 correct 48
+Epoch  360  loss  0.4561708472632626 correct 50
+Epoch  370  loss  0.25311597611764947 correct 50
+Epoch  380  loss  1.3450182513433175 correct 48
+Epoch  390  loss  0.5489844271992189 correct 49
+Epoch  400  loss  0.5061228282943697 correct 50
+Epoch  410  loss  0.34348146376174726 correct 50
+Epoch  420  loss  0.44233355180932654 correct 50
+Epoch  430  loss  0.6523500094441141 correct 50
+Epoch  440  loss  0.9589943811486318 correct 50
+Epoch  450  loss  0.5844034149615487 correct 50
+Epoch  460  loss  0.3604295822765346 correct 50
+Epoch  470  loss  0.048966122173029446 correct 50
+Epoch  480  loss  0.7638276814764614 correct 50
+Epoch  490  loss  0.7303678694853736 correct 50
+Time per epoch: 0.13798286485671998 seconds
+```
+
+#### GPU Model Training Result
+
+##### Command used:
+
+```bash
+!cd $DIR; PYTHONPATH=/content/$DIR python3.11 project/run_fast_tensor.py --BACKEND gpu --HIDDEN 100 --DATASET xor --RATE 0.05
+```
+
+##### Resulted Time Per Epoch
+
+- Time per epoch: to be added...
+
+##### Output logs:
+
+```console
+to be added...
+```
+
+### Task 2.5.4: Model Training with Large Size of Hidden Layer
+
+For this part of the assignment, two models for XOR dataset were trained with a larger size of hidden layer (200 layers) using CPU and GPU in Google Colab's GPU setup.
+
+#### Model Training Configuration
+
+- Number of points: 50
+- Size of hidden layer: 200
+- Learning rate: 0.05
+- Number of epochs: 500
+
+#### CPU Model Training Result
+
+##### Command used:
+
+```bash
+!cd $DIR; PYTHONPATH=/content/$DIR python3.11 project/run_fast_tensor.py --BACKEND cpu --HIDDEN 200 --DATASET xor --RATE 0.05
+```
+
+##### Resulted Time Per Epoch
+
+- Time per epoch: 0.25283s
+
+##### Output logs:
+
+```console
+Epoch  0  loss  12.886690643951422 correct 21
+Epoch  10  loss  3.6290676031694002 correct 42
+Epoch  20  loss  1.9084421170634782 correct 47
+Epoch  30  loss  2.1035888732955637 correct 47
+Epoch  40  loss  1.8385565315757504 correct 48
+Epoch  50  loss  2.1648885810944782 correct 48
+Epoch  60  loss  0.8223768654497151 correct 46
+Epoch  70  loss  1.5281144649068035 correct 48
+Epoch  80  loss  1.6900116361872661 correct 46
+Epoch  90  loss  1.0324218321819842 correct 48
+Epoch  100  loss  1.3039723565465577 correct 48
+Epoch  110  loss  1.3518570042588527 correct 49
+Epoch  120  loss  2.1921494225385953 correct 49
+Epoch  130  loss  0.9782356335324711 correct 49
+Epoch  140  loss  0.28201226293445686 correct 49
+Epoch  150  loss  1.3195234269462215 correct 50
+Epoch  160  loss  0.4345236573339819 correct 50
+Epoch  170  loss  0.5492434110890689 correct 49
+Epoch  180  loss  0.8444784953137129 correct 50
+Epoch  190  loss  0.1633870045647372 correct 50
+Epoch  200  loss  0.41774907183782256 correct 50
+Epoch  210  loss  0.6309014649114412 correct 49
+Epoch  220  loss  0.7606799704663652 correct 49
+Epoch  230  loss  0.7011422654409895 correct 50
+Epoch  240  loss  0.7617527969205331 correct 50
+Epoch  250  loss  0.5479392051121191 correct 50
+Epoch  260  loss  0.5206838809023014 correct 50
+Epoch  270  loss  0.3619415729828762 correct 50
+Epoch  280  loss  0.5923086697168467 correct 50
+Epoch  290  loss  0.5039296453271545 correct 50
+Epoch  300  loss  0.46997081964281073 correct 50
+Epoch  310  loss  0.5320379972023466 correct 50
+Epoch  320  loss  0.3151483425059503 correct 50
+Epoch  330  loss  0.2615861584502418 correct 50
+Epoch  340  loss  0.07516002094823651 correct 50
+Epoch  350  loss  0.4803186967940823 correct 50
+Epoch  360  loss  0.49813273680879455 correct 50
+Epoch  370  loss  0.5446609234099241 correct 50
+Epoch  380  loss  0.8349737142939927 correct 50
+Epoch  390  loss  0.28785533237384264 correct 50
+Epoch  400  loss  0.3386502715121997 correct 50
+Epoch  410  loss  0.052434576199085495 correct 50
+Epoch  420  loss  0.5622776703350532 correct 50
+Epoch  430  loss  0.19334876538761694 correct 50
+Epoch  440  loss  0.5398206311219165 correct 50
+Epoch  450  loss  0.09990801374311194 correct 50
+Epoch  460  loss  0.08317071165451159 correct 50
+Epoch  470  loss  0.6509413684372071 correct 50
+Epoch  480  loss  0.2102027736907837 correct 50
+Epoch  490  loss  0.24454864692092776 correct 50
+Time per epoch: 0.2528335914611816 seconds
+```
+
+#### GPU Model Training Result
+
+##### Command used:
+
+```bash
+!cd $DIR; PYTHONPATH=/content/$DIR python3.11 project/run_fast_tensor.py --BACKEND gpu --HIDDEN 200 --DATASET xor --RATE 0.05
+```
+
+##### Resulted Time Per Epoch
+
+- Time per epoch: to be added...
+
+##### Output logs:
+
+```console
+to be added...
+```
