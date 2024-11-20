@@ -19,7 +19,7 @@ if TYPE_CHECKING:
     from typing import Callable, Optional
 
     from .tensor import Tensor
-    from .tensor_data import Index, Shape, Storage, Strides
+    from .tensor_data import Shape, Storage, Strides
 
 # TIP: Use `NUMBA_DISABLE_JIT=1 pytest tests/ -m task3_1` to run these tests without JIT.
 
@@ -30,6 +30,7 @@ Fn = TypeVar("Fn")
 
 
 def njit(fn: Fn, **kwargs: Any) -> Fn:
+    """A decorator that JIT compiles a function for parallel execution."""
     return _njit(inline="always", **kwargs)(fn)  # type: ignore
 
 
@@ -393,12 +394,52 @@ def _tensor_matrix_multiply(
         None : Fills in `out`
 
     """
+    # Calculate batch stride for tensor a and b
     a_batch_stride = a_strides[0] if a_shape[0] > 1 else 0
     b_batch_stride = b_strides[0] if b_shape[0] > 1 else 0
 
-    # TODO: Implement for Task 3.2.
-    raise NotImplementedError("Need to implement for Task 3.2")
+    # a = [[1, 2], [3, 4]] * b = [[5, 6], [7, 8]] = [[1*5 + 2*7, 1*6 + 2*8], [3*5 + 4*7, 3*6 + 4*8]]
+    # Stride for moving to the next element in the row / column of tensor a
+    a_col_stride = a_strides[1]  
+    a_row_stride = a_strides[2]  # as mutiplication needs all the elements in the row for tensor a
 
+    # Stride for moving to the next element in the row / column of tensor b
+    b_col_stride = b_strides[1]  # as mutiplication needs all the elements in the column for tensor b
+    b_row_stride = b_strides[2]
+
+    # The dimension for the result of each batch (must match: last dim of a, second-to-last of b)
+    result_dim = b_shape[-2]
+
+    # Process each batch of the output tensor in parallel
+    for batch_index in prange(out_shape[0]):
+
+        # Process each element in the output tensor for the current batch
+        for row in range(out_shape[1]):
+            for col in range(out_shape[2]):
+
+                # Calculate the first element in the row of tensor a for the current batch  
+                a_index = batch_index * a_batch_stride + row * a_col_stride
+
+                # Calculate the first element in the column of tensor b for the current batch
+                b_index = batch_index * b_batch_stride + col * b_row_stride
+
+                # Calculate the position of the result in the output tensor for the current batch, row and column
+                out_index = batch_index * out_strides[0] + row * out_strides[1] + col * out_strides[2]
+
+                # Decalre a variable for the result of the products
+                result = 0.0
+
+                # Inner product loop for the calculating the sum of the products of different parts of elements in tensor a and b
+                for _ in range(result_dim):
+                    # Add the product of the elements pair in tensor a and b to the result
+                    result += a_storage[a_index] * b_storage[b_index]
+
+                    # Update the indices for the next element in the row of tensor a and the next element in the column of tensor b
+                    a_index += a_row_stride
+                    b_index += b_col_stride
+
+                # Store the result in the output tensor storage
+                out[out_index] = result
 
 tensor_matrix_multiply = njit(_tensor_matrix_multiply, parallel=True)
 assert tensor_matrix_multiply is not None
