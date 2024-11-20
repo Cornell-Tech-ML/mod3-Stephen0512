@@ -107,7 +107,7 @@ class FastTrain:
 
         # End timing the last epoch
         end_time = time.time()
-        print("Time per epoch:", end_time - start_time, "seconds")
+        print("Time per epoch:", (end_time - start_time) / max_epochs, "seconds")
 
 if __name__ == "__main__":
     import argparse
