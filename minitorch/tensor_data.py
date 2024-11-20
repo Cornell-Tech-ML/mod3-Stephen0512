@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from math import e
 import random
 from typing import Iterable, Optional, Sequence, Tuple, Union
 
@@ -109,26 +110,22 @@ def broadcast_index(
         None
 
     """
-    # Calculate the dimensions of the big and small tensors and the difference between them
+    # Calculate the dimensions of the big and small tensors and their difference
     big_dim = len(big_shape)
     small_dim = len(shape)
     diff = big_dim - small_dim
 
-    # Declare the output index and fill it with zeros
-    out_index.fill(0)
-
     # Iterate through dimensions of the small tensor from right to left
     for i in range(small_dim - 1, -1, -1):
-        # If no broadcasting is needed, copy the index from the big tensor to the output index
+
+        # For dimensions where shape[i] > 1, copy the corresponding index from big_index
         if shape[i] > 1:
-            # Calculate the index of the big tensor corresponding to the current index of the small tensor and update the output index
-            big_i = i + diff
+            big_i = i + diff  # Map to corresponding dimension in big tensor
             out_index[i] = big_index[big_i]
 
-        # If shape[i] == 1, keep 0 (broadcasting)
-
-    # Return None as requested in the function description
-    return None
+        # For dimensions where shape[i] == 1, use 0 for broadcasting
+        else:
+            out_index[i] = 0
 
 
 def shape_broadcast(shape1: UserShape, shape2: UserShape) -> UserShape:
