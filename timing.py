@@ -1,8 +1,5 @@
-import random
-from collections import defaultdict
 import minitorch
 import time
-import sys
 import numpy as np
 
 # Initialize tensor backends
@@ -28,7 +25,7 @@ def run_matmul(backend: minitorch.TensorBackend, size: int = 16) -> None:
     # Create random input tensors
     x = minitorch.rand((batch_size, size, size), backend=backend)
     y = minitorch.rand((batch_size, size, size), backend=backend)
-    z = x @ y  # Perform matrix multiplication
+    _ = x @ y  # Perform matrix multiplication
 
 
 if __name__ == "__main__":
@@ -80,4 +77,3 @@ if __name__ == "__main__":
         print(f"Size: {size}")
         for b, t in stimes.items():
             print(f"    {b}: {t:.5f}")
-
