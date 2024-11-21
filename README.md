@@ -477,13 +477,13 @@ No allocation hoisting found
 None
 ```
 
-## Task 2.5: Model Trainings
+## Task 3.5: Model Trainings
 
 Two models were trained for each of the following datasets using CPU and GPU in Google Colab's GPU setup: Simple, Split, and XOR.
 
 Several models were trained for each dataset with the same configuration, and the best results are included below for this part of the assignment.
 
-### Task 2.5.1: Simple Dataset Model Training
+### Task 3.5.1: Simple Dataset Model Training
 
 #### Model Training Configuration
 
@@ -578,7 +578,7 @@ Time per epoch: 0.14158626127243043 seconds
 to be added...
 ```
 
-### Task 2.5.2: Split Dataset Model Training
+### Task 3.5.2: Split Dataset Model Training
 
 #### Model Training Configuration
 
@@ -673,7 +673,7 @@ Time per epoch: 0.13743920278549193 seconds
 to be added...
 ```
 
-### Task 2.5.3: XOR Dataset Model Training
+### Task 3.5.3: XOR Dataset Model Training
 
 #### Model Training Configuration
 
@@ -768,7 +768,7 @@ Time per epoch: 0.13798286485671998 seconds
 to be added...
 ```
 
-### Task 2.5.4: Model Training with Large Size of Hidden Layer
+### Task 3.5.4: Model Training with Large Size of Hidden Layer
 
 For this part of the assignment, two models for XOR dataset were trained with a larger size of hidden layer (200 layers) using CPU and GPU in Google Colab's GPU setup.
 
