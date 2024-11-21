@@ -68,19 +68,17 @@ Parallel loop listing for  Function tensor_map.<locals>._map, /Users/stephen_she
             and np.array_equal(out_shape, in_shape)                                  |
         ):                                                                           |
             # Fast path: tensors are stride-aligned, avoid indexing                  |
-            for i in prange(out.size):-----------------------------------------------| #3
+            for i in prange(out.size):-----------------------------------------------| #0
                 out[i] = fn(in_storage[i])                                           |
             return                                                                   |
                                                                                      |
         # Slow path: tensors are not stride-aligned                                  |
-        # Calculate total number of elements to process                              |
-        size = np.prod(out_shape)----------------------------------------------------| #2
                                                                                      |
-        # Process each element in parallel                                           |
-        for i in prange(size):-------------------------------------------------------| #4
+        # Process each element of the output tensor in parallel                      |
+        for i in prange(out.size):---------------------------------------------------| #1
             # Initialize index arrays for input and output tensors                   |
-            out_index = np.zeros(MAX_DIMS, np.int32)  # Output tensor index----------| #0
-            in_index = np.zeros(MAX_DIMS, np.int32)   # Input tensor index-----------| #1
+            out_index = np.empty(MAX_DIMS, np.int32)  # Output tensor index          |
+            in_index = np.empty(MAX_DIMS, np.int32)   # Input tensor index           |
                                                                                      |
             # Convert flat index i to tensor indices for output tensor               |
             to_index(i, out_shape, out_index)                                        |
@@ -96,52 +94,29 @@ Parallel loop listing for  Function tensor_map.<locals>._map, /Users/stephen_she
             out[out_pos] = fn(in_storage[in_pos])                                    |
 --------------------------------- Fusing loops ---------------------------------
 Attempting fusion of parallel loops (combines loops with similar properties)...
-
-Fused loop summary:
-+--0 has the following loops fused into it:
-   +--1 (fused)
-Following the attempted fusion of parallel for-loops there are 4 parallel for-
-loop(s) (originating from loops labelled: #3, #2, #4, #0).
---------------------------------------------------------------------------------
----------------------------- Optimising loop nests -----------------------------
-Attempting loop nest rewrites (optimising for the largest parallel loops)...
-
-+--4 is a parallel loop
-   +--0 --> rewritten as a serial loop
+Following the attempted fusion of parallel for-loops there are 2 parallel for-
+loop(s) (originating from loops labelled: #0, #1).
 --------------------------------------------------------------------------------
 ----------------------------- Before Optimisation ------------------------------
-Parallel region 0:
-+--4 (parallel)
-   +--0 (parallel)
-   +--1 (parallel)
-
-
 --------------------------------------------------------------------------------
 ------------------------------ After Optimisation ------------------------------
-Parallel region 0:
-+--4 (parallel)
-   +--0 (serial, fused with loop(s): 1)
-
-
-
-Parallel region 0 (loop #4) had 1 loop(s) fused and 1 loop(s) serialized as part
- of the larger parallel loop (#4).
+Parallel structure is already optimal.
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
 ---------------------------Loop invariant code motion---------------------------
 Allocation hoisting:
 The memory allocation derived from the instruction at /Users/stephen_shen/Deskto
-p/ML_Engineering/workspace/mod3-Stephen0512/minitorch/fast_ops.py (190) is
-hoisted out of the parallel loop labelled #4 (it will be performed before the
+p/ML_Engineering/workspace/mod3-Stephen0512/minitorch/fast_ops.py (188) is
+hoisted out of the parallel loop labelled #1 (it will be performed before the
 loop is executed and reused inside the loop):
-   Allocation:: out_index = np.zeros(MAX_DIMS, np.int32)  # Output tensor index
+   Allocation:: out_index = np.empty(MAX_DIMS, np.int32)  # Output tensor index
     - numpy.empty() is used for the allocation.
 The memory allocation derived from the instruction at /Users/stephen_shen/Deskto
-p/ML_Engineering/workspace/mod3-Stephen0512/minitorch/fast_ops.py (191) is
-hoisted out of the parallel loop labelled #4 (it will be performed before the
+p/ML_Engineering/workspace/mod3-Stephen0512/minitorch/fast_ops.py (189) is
+hoisted out of the parallel loop labelled #1 (it will be performed before the
 loop is executed and reused inside the loop):
-   Allocation:: in_index = np.zeros(MAX_DIMS, np.int32)   # Input tensor index
+   Allocation:: in_index = np.empty(MAX_DIMS, np.int32)   # Input tensor index
     - numpy.empty() is used for the allocation.
 None
 ZIP
@@ -149,11 +124,11 @@ ZIP
 ================================================================================
  Parallel Accelerator Optimizing:  Function tensor_zip.<locals>._zip, /Users/ste
 phen_shen/Desktop/ML_Engineering/workspace/mod3-
-Stephen0512/minitorch/fast_ops.py (232)
+Stephen0512/minitorch/fast_ops.py (230)
 ================================================================================
 
 
-Parallel loop listing for  Function tensor_zip.<locals>._zip, /Users/stephen_shen/Desktop/ML_Engineering/workspace/mod3-Stephen0512/minitorch/fast_ops.py (232)
+Parallel loop listing for  Function tensor_zip.<locals>._zip, /Users/stephen_shen/Desktop/ML_Engineering/workspace/mod3-Stephen0512/minitorch/fast_ops.py (230)
 -----------------------------------------------------------------------------------------|loop #ID
     def _zip(                                                                            |
         out: Storage,                                                                    |
@@ -175,20 +150,19 @@ Parallel loop listing for  Function tensor_zip.<locals>._zip, /Users/stephen_she
             and np.array_equal(out_shape, b_shape)                                       |
         ):                                                                               |
             # Fast path: tensors are stride-aligned, avoid indexing                      |
-            for i in prange(out.size):---------------------------------------------------| #9
+            for i in prange(out.size):---------------------------------------------------| #2
                 out[i] = fn(a_storage[i], b_storage[i])                                  |
             return                                                                       |
                                                                                          |
         # Slow path: tensors are not stride-aligned                                      |
-        # Calculate total number of elements to process                                  |
-        size = np.prod(out_shape)--------------------------------------------------------| #8
                                                                                          |
-        # Process each element in parallel                                               |
-        for i in prange(size):-----------------------------------------------------------| #10
-            # Initialize index arrays for input and output tensors                       |
-            out_index = np.zeros(MAX_DIMS, np.int32)  # Output tensor index--------------| #5
-            a_index = np.zeros(MAX_DIMS, np.int32)    # First input tensor index---------| #6
-            b_index = np.zeros(MAX_DIMS, np.int32)    # Second input tensor index--------| #7
+        # Process each element in the output tensor in parallel                          |
+        for i in prange(out.size):-------------------------------------------------------| #3
+                                                                                         |
+            # Initialize index arrays for input and output tensor indices                |
+            out_index = np.empty(MAX_DIMS, np.int32)  # Output tensor index              |
+            a_index = np.empty(MAX_DIMS, np.int32)    # First input tensor index         |
+            b_index = np.empty(MAX_DIMS, np.int32)    # Second input tensor index        |
                                                                                          |
             # Convert flat index i to tensor indices for output tensor                   |
             to_index(i, out_shape, out_index)                                            |
@@ -206,61 +180,36 @@ Parallel loop listing for  Function tensor_zip.<locals>._zip, /Users/stephen_she
             out[out_pos] = fn(a_storage[a_pos], b_storage[b_pos])                        |
 --------------------------------- Fusing loops ---------------------------------
 Attempting fusion of parallel loops (combines loops with similar properties)...
-
-Fused loop summary:
-+--5 has the following loops fused into it:
-   +--6 (fused)
-   +--7 (fused)
-Following the attempted fusion of parallel for-loops there are 4 parallel for-
-loop(s) (originating from loops labelled: #9, #8, #10, #5).
---------------------------------------------------------------------------------
----------------------------- Optimising loop nests -----------------------------
-Attempting loop nest rewrites (optimising for the largest parallel loops)...
-
-+--10 is a parallel loop
-   +--5 --> rewritten as a serial loop
+Following the attempted fusion of parallel for-loops there are 2 parallel for-
+loop(s) (originating from loops labelled: #2, #3).
 --------------------------------------------------------------------------------
 ----------------------------- Before Optimisation ------------------------------
-Parallel region 0:
-+--10 (parallel)
-   +--5 (parallel)
-   +--6 (parallel)
-   +--7 (parallel)
-
-
 --------------------------------------------------------------------------------
 ------------------------------ After Optimisation ------------------------------
-Parallel region 0:
-+--10 (parallel)
-   +--5 (serial, fused with loop(s): 6, 7)
-
-
-
-Parallel region 0 (loop #10) had 2 loop(s) fused and 1 loop(s) serialized as
-part of the larger parallel loop (#10).
+Parallel structure is already optimal.
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
 ---------------------------Loop invariant code motion---------------------------
 Allocation hoisting:
 The memory allocation derived from the instruction at /Users/stephen_shen/Deskto
-p/ML_Engineering/workspace/mod3-Stephen0512/minitorch/fast_ops.py (263) is
-hoisted out of the parallel loop labelled #10 (it will be performed before the
+p/ML_Engineering/workspace/mod3-Stephen0512/minitorch/fast_ops.py (260) is
+hoisted out of the parallel loop labelled #3 (it will be performed before the
 loop is executed and reused inside the loop):
-   Allocation:: out_index = np.zeros(MAX_DIMS, np.int32)  # Output tensor index
+   Allocation:: out_index = np.empty(MAX_DIMS, np.int32)  # Output tensor index
     - numpy.empty() is used for the allocation.
 The memory allocation derived from the instruction at /Users/stephen_shen/Deskto
-p/ML_Engineering/workspace/mod3-Stephen0512/minitorch/fast_ops.py (264) is
-hoisted out of the parallel loop labelled #10 (it will be performed before the
+p/ML_Engineering/workspace/mod3-Stephen0512/minitorch/fast_ops.py (261) is
+hoisted out of the parallel loop labelled #3 (it will be performed before the
 loop is executed and reused inside the loop):
-   Allocation:: a_index = np.zeros(MAX_DIMS, np.int32)    # First input tensor
+   Allocation:: a_index = np.empty(MAX_DIMS, np.int32)    # First input tensor
 index
     - numpy.empty() is used for the allocation.
 The memory allocation derived from the instruction at /Users/stephen_shen/Deskto
-p/ML_Engineering/workspace/mod3-Stephen0512/minitorch/fast_ops.py (265) is
-hoisted out of the parallel loop labelled #10 (it will be performed before the
+p/ML_Engineering/workspace/mod3-Stephen0512/minitorch/fast_ops.py (262) is
+hoisted out of the parallel loop labelled #3 (it will be performed before the
 loop is executed and reused inside the loop):
-   Allocation:: b_index = np.zeros(MAX_DIMS, np.int32)    # Second input tensor
+   Allocation:: b_index = np.empty(MAX_DIMS, np.int32)    # Second input tensor
 index
     - numpy.empty() is used for the allocation.
 None
@@ -269,11 +218,11 @@ REDUCE
 ================================================================================
  Parallel Accelerator Optimizing:  Function tensor_reduce.<locals>._reduce, /Use
 rs/stephen_shen/Desktop/ML_Engineering/workspace/mod3-
-Stephen0512/minitorch/fast_ops.py (306)
+Stephen0512/minitorch/fast_ops.py (303)
 ================================================================================
 
 
-Parallel loop listing for  Function tensor_reduce.<locals>._reduce, /Users/stephen_shen/Desktop/ML_Engineering/workspace/mod3-Stephen0512/minitorch/fast_ops.py (306)
+Parallel loop listing for  Function tensor_reduce.<locals>._reduce, /Users/stephen_shen/Desktop/ML_Engineering/workspace/mod3-Stephen0512/minitorch/fast_ops.py (303)
 -----------------------------------------------------------------------------------------------------------------|loop #ID
     def _reduce(                                                                                                 |
         out: Storage,                                                                                            |
@@ -284,16 +233,14 @@ Parallel loop listing for  Function tensor_reduce.<locals>._reduce, /Users/steph
         a_strides: Strides,                                                                                      |
         reduce_dim: int,                                                                                         |
     ) -> None:                                                                                                   |
-        # Calculate total number of elements to process                                                          |
-        size = np.prod(out_shape)--------------------------------------------------------------------------------| #12
-                                                                                                                 |
         # Calculate the size of the reduction dimension for the inner loop                                       |
         reduce_size = a_shape[reduce_dim]                                                                        |
                                                                                                                  |
-        # Process each output position in parallel                                                               |
-        for i in prange(size):-----------------------------------------------------------------------------------| #13
-            # Create index buffers                                                                               |
-            index = np.zeros(MAX_DIMS, np.int32)  # Tensor index for output first and then for input-------------| #11
+        # Process each element in the output tensor in parallel                                                  |
+        for i in prange(out.size):-------------------------------------------------------------------------------| #4
+                                                                                                                 |
+            # Create index buffers for input tensor index                                                        |
+            index = np.empty(MAX_DIMS, np.int32)  # Tensor index for output first and then for input             |
                                                                                                                  |
             # Convert flat index to output index                                                                 |
             to_index(i, out_shape, index)                                                                        |
@@ -321,41 +268,23 @@ Parallel loop listing for  Function tensor_reduce.<locals>._reduce, /Users/steph
             out[out_pos] = accumulated_value                                                                     |
 --------------------------------- Fusing loops ---------------------------------
 Attempting fusion of parallel loops (combines loops with similar properties)...
-Following the attempted fusion of parallel for-loops there are 3 parallel for-
-loop(s) (originating from loops labelled: #12, #13, #11).
---------------------------------------------------------------------------------
----------------------------- Optimising loop nests -----------------------------
-Attempting loop nest rewrites (optimising for the largest parallel loops)...
-
-+--13 is a parallel loop
-   +--11 --> rewritten as a serial loop
+Following the attempted fusion of parallel for-loops there are 1 parallel for-
+loop(s) (originating from loops labelled: #4).
 --------------------------------------------------------------------------------
 ----------------------------- Before Optimisation ------------------------------
-Parallel region 0:
-+--13 (parallel)
-   +--11 (parallel)
-
-
 --------------------------------------------------------------------------------
 ------------------------------ After Optimisation ------------------------------
-Parallel region 0:
-+--13 (parallel)
-   +--11 (serial)
-
-
-
-Parallel region 0 (loop #13) had 0 loop(s) fused and 1 loop(s) serialized as
-part of the larger parallel loop (#13).
+Parallel structure is already optimal.
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
 ---------------------------Loop invariant code motion---------------------------
 Allocation hoisting:
 The memory allocation derived from the instruction at /Users/stephen_shen/Deskto
-p/ML_Engineering/workspace/mod3-Stephen0512/minitorch/fast_ops.py (324) is
-hoisted out of the parallel loop labelled #13 (it will be performed before the
+p/ML_Engineering/workspace/mod3-Stephen0512/minitorch/fast_ops.py (319) is
+hoisted out of the parallel loop labelled #4 (it will be performed before the
 loop is executed and reused inside the loop):
-   Allocation:: index = np.zeros(MAX_DIMS, np.int32)  # Tensor index for output
+   Allocation:: index = np.empty(MAX_DIMS, np.int32)  # Tensor index for output
 first and then for input
     - numpy.empty() is used for the allocation.
 None
@@ -364,11 +293,11 @@ MATRIX MULTIPLY
 ================================================================================
  Parallel Accelerator Optimizing:  Function _tensor_matrix_multiply, /Users/step
 hen_shen/Desktop/ML_Engineering/workspace/mod3-Stephen0512/minitorch/fast_ops.py
- (354)
+ (349)
 ================================================================================
 
 
-Parallel loop listing for  Function _tensor_matrix_multiply, /Users/stephen_shen/Desktop/ML_Engineering/workspace/mod3-Stephen0512/minitorch/fast_ops.py (354)
+Parallel loop listing for  Function _tensor_matrix_multiply, /Users/stephen_shen/Desktop/ML_Engineering/workspace/mod3-Stephen0512/minitorch/fast_ops.py (349)
 ---------------------------------------------------------------------------------------------------------------------------------------|loop #ID
 def _tensor_matrix_multiply(                                                                                                           |
     out: Storage,                                                                                                                      |
@@ -430,7 +359,7 @@ def _tensor_matrix_multiply(                                                    
     result_dim = b_shape[-2]                                                                                                           |
                                                                                                                                        |
     # Process each batch of the output tensor in parallel                                                                              |
-    for batch_index in prange(out_shape[0]):-------------------------------------------------------------------------------------------| #14
+    for batch_index in prange(out_shape[0]):-------------------------------------------------------------------------------------------| #5
                                                                                                                                        |
         # Process each element in the output tensor for the current batch                                                              |
         for row in range(out_shape[1]):                                                                                                |
@@ -462,7 +391,7 @@ def _tensor_matrix_multiply(                                                    
 --------------------------------- Fusing loops ---------------------------------
 Attempting fusion of parallel loops (combines loops with similar properties)...
 Following the attempted fusion of parallel for-loops there are 1 parallel for-
-loop(s) (originating from loops labelled: #14).
+loop(s) (originating from loops labelled: #5).
 --------------------------------------------------------------------------------
 ----------------------------- Before Optimisation ------------------------------
 --------------------------------------------------------------------------------
