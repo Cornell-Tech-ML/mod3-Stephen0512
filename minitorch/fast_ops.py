@@ -181,14 +181,12 @@ def tensor_map(
             return
 
         # Slow path: tensors are not stride-aligned
-        # Calculate total number of elements to process
-        size = np.prod(out_shape)
 
-        # Process each element in parallel
-        for i in prange(size):
+        # Process each element of the output tensor in parallel
+        for i in prange(out.size):
             # Initialize index arrays for input and output tensors
-            out_index = np.zeros(MAX_DIMS, np.int32)  # Output tensor index
-            in_index = np.zeros(MAX_DIMS, np.int32)   # Input tensor index
+            out_index = np.empty(MAX_DIMS, np.int32)  # Output tensor index
+            in_index = np.empty(MAX_DIMS, np.int32)   # Input tensor index
             
             # Convert flat index i to tensor indices for output tensor
             to_index(i, out_shape, out_index)
@@ -254,15 +252,14 @@ def tensor_zip(
             return
 
         # Slow path: tensors are not stride-aligned
-        # Calculate total number of elements to process
-        size = np.prod(out_shape)
 
-        # Process each element in parallel
-        for i in prange(size):
-            # Initialize index arrays for input and output tensors
-            out_index = np.zeros(MAX_DIMS, np.int32)  # Output tensor index
-            a_index = np.zeros(MAX_DIMS, np.int32)    # First input tensor index
-            b_index = np.zeros(MAX_DIMS, np.int32)    # Second input tensor index
+        # Process each element in the output tensor in parallel
+        for i in prange(out.size):
+
+            # Initialize index arrays for input and output tensor indices
+            out_index = np.empty(MAX_DIMS, np.int32)  # Output tensor index
+            a_index = np.empty(MAX_DIMS, np.int32)    # First input tensor index
+            b_index = np.empty(MAX_DIMS, np.int32)    # Second input tensor index
 
             # Convert flat index i to tensor indices for output tensor
             to_index(i, out_shape, out_index)
@@ -312,16 +309,14 @@ def tensor_reduce(
         a_strides: Strides,
         reduce_dim: int,
     ) -> None:
-        # Calculate total number of elements to process
-        size = np.prod(out_shape)
-
         # Calculate the size of the reduction dimension for the inner loop
         reduce_size = a_shape[reduce_dim]
 
-        # Process each output position in parallel
-        for i in prange(size):
-            # Create index buffers
-            index = np.zeros(MAX_DIMS, np.int32)  # Tensor index for output first and then for input
+        # Process each element in the output tensor in parallel
+        for i in prange(out.size):
+
+            # Create index buffers for input tensor index
+            index = np.empty(MAX_DIMS, np.int32)  # Tensor index for output first and then for input
 
             # Convert flat index to output index
             to_index(i, out_shape, index)
