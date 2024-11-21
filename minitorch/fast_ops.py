@@ -186,18 +186,18 @@ def tensor_map(
         for i in prange(out.size):
             # Initialize index arrays for input and output tensors
             out_index = np.empty(MAX_DIMS, np.int32)  # Output tensor index
-            in_index = np.empty(MAX_DIMS, np.int32)   # Input tensor index
-            
+            in_index = np.empty(MAX_DIMS, np.int32)  # Input tensor index
+
             # Convert flat index i to tensor indices for output tensor
             to_index(i, out_shape, out_index)
-            
+
             # Handle broadcasting between tensors to get input tensor index
             broadcast_index(out_index, out_shape, in_shape, in_index)
-            
+
             # Convert indices to positions in storage
-            in_pos = index_to_position(in_index, in_strides)   # Input position
-            out_pos = index_to_position(out_index, out_strides) # Output position
-            
+            in_pos = index_to_position(in_index, in_strides)  # Input position
+            out_pos = index_to_position(out_index, out_strides)  # Output position
+
             # Apply function and store result
             out[out_pos] = fn(in_storage[in_pos])
 
@@ -255,11 +255,10 @@ def tensor_zip(
 
         # Process each element in the output tensor in parallel
         for i in prange(out.size):
-
             # Initialize index arrays for input and output tensor indices
             out_index = np.empty(MAX_DIMS, np.int32)  # Output tensor index
-            a_index = np.empty(MAX_DIMS, np.int32)    # First input tensor index
-            b_index = np.empty(MAX_DIMS, np.int32)    # Second input tensor index
+            a_index = np.empty(MAX_DIMS, np.int32)  # First input tensor index
+            b_index = np.empty(MAX_DIMS, np.int32)  # Second input tensor index
 
             # Convert flat index i to tensor indices for output tensor
             to_index(i, out_shape, out_index)
@@ -269,9 +268,9 @@ def tensor_zip(
             broadcast_index(out_index, out_shape, b_shape, b_index)
 
             # Convert indices to positions in storage
-            a_pos = index_to_position(a_index, a_strides)     # First input position
-            b_pos = index_to_position(b_index, b_strides)     # Second input position
-            out_pos = index_to_position(out_index, out_strides) # Output position
+            a_pos = index_to_position(a_index, a_strides)  # First input position
+            b_pos = index_to_position(b_index, b_strides)  # Second input position
+            out_pos = index_to_position(out_index, out_strides)  # Output position
 
             # Apply function and store result
             out[out_pos] = fn(a_storage[a_pos], b_storage[b_pos])
@@ -314,9 +313,10 @@ def tensor_reduce(
 
         # Process each element in the output tensor in parallel
         for i in prange(out.size):
-
             # Create index buffers for input tensor index
-            index = np.empty(MAX_DIMS, np.int32)  # Tensor index for output first and then for input
+            index = np.empty(
+                MAX_DIMS, np.int32
+            )  # Tensor index for output first and then for input
 
             # Convert flat index to output index
             to_index(i, out_shape, index)
@@ -326,7 +326,9 @@ def tensor_reduce(
 
             # Initialize reduction with first element of the reduction dimension in input tensor
             index[reduce_dim] = 0
-            in_pos = index_to_position(index, a_strides)  # Convert index to position in input tensor storage
+            in_pos = index_to_position(
+                index, a_strides
+            )  # Convert index to position in input tensor storage
 
             # Initialize accumulated value with the first element of the reduction dimension in input tensor
             accumulated_value = a_storage[in_pos]
@@ -395,11 +397,15 @@ def _tensor_matrix_multiply(
 
     # a = [[1, 2], [3, 4]] * b = [[5, 6], [7, 8]] = [[1*5 + 2*7, 1*6 + 2*8], [3*5 + 4*7, 3*6 + 4*8]]
     # Stride for moving to the next element in the row / column of tensor a
-    a_col_stride = a_strides[1]  
-    a_row_stride = a_strides[2]  # as mutiplication needs all the elements in the row for tensor a
+    a_col_stride = a_strides[1]
+    a_row_stride = a_strides[
+        2
+    ]  # as mutiplication needs all the elements in the row for tensor a
 
     # Stride for moving to the next element in the row / column of tensor b
-    b_col_stride = b_strides[1]  # as mutiplication needs all the elements in the column for tensor b
+    b_col_stride = b_strides[
+        1
+    ]  # as mutiplication needs all the elements in the column for tensor b
     b_row_stride = b_strides[2]
 
     # The dimension for the result of each batch (must match: last dim of a, second-to-last of b)
@@ -407,19 +413,21 @@ def _tensor_matrix_multiply(
 
     # Process each batch of the output tensor in parallel
     for batch_index in prange(out_shape[0]):
-
         # Process each element in the output tensor for the current batch
         for row in range(out_shape[1]):
             for col in range(out_shape[2]):
-
-                # Calculate the first element in the row of tensor a for the current batch  
+                # Calculate the first element in the row of tensor a for the current batch
                 a_index = batch_index * a_batch_stride + row * a_col_stride
 
                 # Calculate the first element in the column of tensor b for the current batch
                 b_index = batch_index * b_batch_stride + col * b_row_stride
 
                 # Calculate the position of the result in the output tensor for the current batch, row and column
-                out_index = batch_index * out_strides[0] + row * out_strides[1] + col * out_strides[2]
+                out_index = (
+                    batch_index * out_strides[0]
+                    + row * out_strides[1]
+                    + col * out_strides[2]
+                )
 
                 # Decalre a variable for the result of the products
                 result = 0.0
@@ -435,6 +443,7 @@ def _tensor_matrix_multiply(
 
                 # Store the result in the output tensor storage
                 out[out_index] = result
+
 
 tensor_matrix_multiply = njit(_tensor_matrix_multiply, parallel=True)
 assert tensor_matrix_multiply is not None

@@ -158,7 +158,9 @@ def is_close(num_1: float, num_2: float) -> bool:
         The return value. True if the absolute difference between num_1 and num_2 is less than 1e-2, False otherwise.
 
     """
-    return (num_1 - num_2 < 1e-2) and (num_2 - num_1 < 1e-2)  # 1e-2 is the tolerance for close numbers ($f(x) = |x - y| < 1e-2$)
+    return (num_1 - num_2 < 1e-2) and (
+        num_2 - num_1 < 1e-2
+    )  # 1e-2 is the tolerance for close numbers ($f(x) = |x - y| < 1e-2$)
 
 
 def sigmoid(num: float) -> float:

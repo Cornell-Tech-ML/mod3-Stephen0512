@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from math import e
 import random
 from typing import Iterable, Optional, Sequence, Tuple, Union
 
@@ -49,13 +48,13 @@ def index_to_position(index: Index, strides: Strides) -> int:
     """
     # Initialize position to 0
     stride_position = 0
-    
+
     # Iterate through corresponding indices and strides simultaneously
     for index, stride in zip(index, strides):
         # For each dimension, multiply index by stride and add to position
         # This converts multidimensional index to flat position using strides
         stride_position += index * stride
-        
+
     # Return the calculated flat position in storage
     return stride_position
 
@@ -75,16 +74,16 @@ def to_index(ordinal: int, shape: Shape, out_index: OutIndex) -> None:
     """
     # Start with the ordinal number we want to convert
     remaining_ordinal = ordinal + 0
-    
+
     # Iterate through dimensions from right to left (least significant to most significant)
     for dimension in range(len(shape) - 1, -1, -1):
         # Get the size of current dimension
         dimension_size = shape[dimension]
-        
+
         # Extract index for current dimension using modulo (remainder)
         # Convert to int to ensure integer type
         out_index[dimension] = int(remaining_ordinal % dimension_size)
-        
+
         # Integer divide to get remaining ordinal for next dimensions
         remaining_ordinal = remaining_ordinal // dimension_size
 
@@ -117,7 +116,6 @@ def broadcast_index(
 
     # Iterate through dimensions of the small tensor from right to left
     for i in range(small_dim - 1, -1, -1):
-
         # For dimensions where shape[i] > 1, copy the corresponding index from big_index
         if shape[i] > 1:
             big_i = i + diff  # Map to corresponding dimension in big tensor
