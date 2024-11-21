@@ -406,6 +406,50 @@ No allocation hoisting found
 None
 ```
 
+## Task 3.4: Matrix Multiplication Comparison between Fast CPU and GPU
+
+### Command used:
+
+```bash
+!cd $DIR; python3.11 timing.py
+```
+
+### Output logs:
+
+```console
+Running size 64
+{'fast': np.float64(0.002755324045817057), 'gpu': np.float64(0.005371888478597005)}
+Running size 128
+{'fast': np.float64(0.013159831364949545), 'gpu': np.float64(0.011595646540323893)}
+Running size 256
+{'fast': np.float64(0.0859994888305664), 'gpu': np.float64(0.04130776723225912)}
+Running size 512
+{'fast': np.float64(1.222908894220988), 'gpu': np.float64(0.2121903896331787)}
+Running size 1024
+{'fast': np.float64(7.7735435962677), 'gpu': np.float64(0.7943743069966634)}
+
+Timing summary
+Size: 64
+    fast: 0.00276
+    gpu: 0.00537
+Size: 128
+    fast: 0.01316
+    gpu: 0.01160
+Size: 256
+    fast: 0.08600
+    gpu: 0.04131
+Size: 512
+    fast: 1.22291
+    gpu: 0.21219
+Size: 1024
+    fast: 7.77354
+    gpu: 0.79437
+```
+
+### Diagram Plot using Matplotlib (the script for plotting is in `images/plot_matrix_multiplication_comparison.py`)
+
+![Matrix Multiplication Comparison](./images/matrix_multiplication_comparison.png)
+
 ## Task 3.5: Model Trainings
 
 Two models were trained for each of the following datasets using CPU and GPU in Google Colab's GPU setup: Simple, Split, and XOR.
@@ -499,12 +543,61 @@ Time per epoch: 0.14158626127243043 seconds
 
 ##### Resulted Time Per Epoch
 
-- Time per epoch: to be added...
+- Time per epoch: 1.19131s
 
 ##### Output logs:
 
 ```console
-to be added...
+Epoch  0  loss  4.00145417691197 correct 46
+Epoch  10  loss  1.4058689519825482 correct 49
+Epoch  20  loss  0.10921803251331325 correct 50
+Epoch  30  loss  0.3183595799718256 correct 50
+Epoch  40  loss  0.16534145893725533 correct 50
+Epoch  50  loss  0.3993352142795132 correct 50
+Epoch  60  loss  0.19258397794870102 correct 50
+Epoch  70  loss  0.373736770608476 correct 50
+Epoch  80  loss  0.4897017278048487 correct 50
+Epoch  90  loss  0.0603773877444827 correct 50
+Epoch  100  loss  0.02374230911091315 correct 50
+Epoch  110  loss  0.3493614980254016 correct 50
+Epoch  120  loss  0.21842040874380958 correct 50
+Epoch  130  loss  0.03025667252098856 correct 50
+Epoch  140  loss  0.03685089684595349 correct 50
+Epoch  150  loss  0.07485504815399717 correct 50
+Epoch  160  loss  0.11547548610048597 correct 50
+Epoch  170  loss  0.007094716520610616 correct 50
+Epoch  180  loss  0.16422613369782982 correct 50
+Epoch  190  loss  0.09576582866696494 correct 50
+Epoch  200  loss  0.07545924719900853 correct 50
+Epoch  210  loss  0.0826210695766608 correct 50
+Epoch  220  loss  0.08245359762866884 correct 50
+Epoch  230  loss  0.036724443377099916 correct 50
+Epoch  250  loss  0.036693267115687364 correct 50
+Epoch  260  loss  0.03750003052693942 correct 50
+Epoch  270  loss  0.05400097757773628 correct 50
+Epoch  280  loss  0.07120070712436972 correct 50
+Epoch  290  loss  0.08677457985093956 correct 50
+Epoch  300  loss  0.03866366609724664 correct 50
+Epoch  310  loss  0.04386492078731308 correct 50
+Epoch  320  loss  0.04547850277664865 correct 50
+Epoch  330  loss  0.07154904152896996 correct 50
+Epoch  340  loss  0.057144615939808734 correct 50
+Epoch  350  loss  0.019258206692446475 correct 50
+Epoch  360  loss  0.0740481534787759 correct 50
+Epoch  370  loss  0.03560719846271801 correct 50
+Epoch  380  loss  0.030318854494362748 correct 50
+Epoch  390  loss  0.030316260618874054 correct 50
+Epoch  400  loss  0.023227912712374343 correct 50
+Epoch  410  loss  0.005072227586891592 correct 50
+Epoch  420  loss  0.017722458066899826 correct 50
+Epoch  430  loss  0.01862936049632056 correct 50
+Epoch  440  loss  0.05606856262464374 correct 50
+Epoch  450  loss  0.05464139116641132 correct 50
+Epoch  460  loss  0.009938598635590063 correct 50
+Epoch  470  loss  0.026676171576248398 correct 50
+Epoch  480  loss  0.05702474549503852 correct 50
+Epoch  490  loss  0.0033770045220933064 correct 50
+Time per epoch: 1.191306028842926 seconds
 ```
 
 ### Task 3.5.2: Split Dataset Model Training
@@ -594,12 +687,62 @@ Time per epoch: 0.13743920278549193 seconds
 
 ##### Resulted Time Per Epoch
 
-- Time per epoch: to be added...
+- Time per epoch: 1.17735
 
 ##### Output logs:
 
 ```console
-to be added...
+Epoch  0  loss  6.613903797387344 correct 27
+Epoch  10  loss  5.90211731863897 correct 36
+Epoch  20  loss  5.350612917932874 correct 30
+Epoch  30  loss  5.561551473535419 correct 42
+Epoch  40  loss  6.883296813948837 correct 35
+Epoch  50  loss  5.040332929298389 correct 43
+Epoch  60  loss  4.217615248008297 correct 47
+Epoch  70  loss  4.367071471886839 correct 42
+Epoch  80  loss  4.126291783864598 correct 45
+Epoch  90  loss  3.189944749786898 correct 49
+Epoch  100  loss  3.0584338969413465 correct 49
+Epoch  110  loss  1.911884710955157 correct 49
+Epoch  120  loss  2.6948538640650783 correct 46
+Epoch  130  loss  1.5507986628835106 correct 50
+Epoch  140  loss  1.6847820180321462 correct 49
+Epoch  150  loss  1.6476392894799399 correct 48
+Epoch  160  loss  0.34802348105302505 correct 50
+Epoch  170  loss  1.2051082205660608 correct 50
+Epoch  180  loss  2.7537048390571455 correct 49
+Epoch  190  loss  0.4570241123780714 correct 50
+Epoch  200  loss  0.4527954185311513 correct 50
+Epoch  210  loss  0.8250305625706099 correct 49
+Epoch  220  loss  1.40754645735216 correct 50
+Epoch  230  loss  0.7577279630684921 correct 48
+Epoch  240  loss  0.4266628913844896 correct 50
+Epoch  250  loss  1.4031285822636308 correct 50
+Epoch  260  loss  0.19011705235664034 correct 50
+Epoch  270  loss  0.8513760791779729 correct 49
+Epoch  280  loss  0.43773783939175875 correct 50
+Epoch  290  loss  0.4170454122974641 correct 50
+Epoch  300  loss  0.22526493974157785 correct 50
+Epoch  310  loss  0.36475144052757935 correct 50
+Epoch  320  loss  1.019919373628549 correct 50
+Epoch  330  loss  0.46618796798207207 correct 50
+Epoch  340  loss  0.5313789700561959 correct 50
+Epoch  350  loss  0.19554580590724516 correct 50
+Epoch  360  loss  0.20367282762285516 correct 50
+Epoch  370  loss  0.09530083776547735 correct 50
+Epoch  380  loss  0.25114016191851496 correct 50
+Epoch  390  loss  0.15851919449040466 correct 50
+Epoch  400  loss  0.592728407798453 correct 50
+Epoch  410  loss  0.2781058139538783 correct 50
+Epoch  420  loss  0.34856018871794625 correct 50
+Epoch  430  loss  0.3761872201211317 correct 50
+Epoch  440  loss  0.24616664332866728 correct 50
+Epoch  450  loss  0.22511582729592847 correct 50
+Epoch  460  loss  0.045081758375188734 correct 50
+Epoch  470  loss  0.2513605403628275 correct 50
+Epoch  480  loss  0.2199821991568737 correct 50
+Epoch  490  loss  0.2568455039559724 correct 50
+Time per epoch: 1.1773508729934692 seconds
 ```
 
 ### Task 3.5.3: XOR Dataset Model Training
@@ -689,12 +832,62 @@ Time per epoch: 0.13798286485671998 seconds
 
 ##### Resulted Time Per Epoch
 
-- Time per epoch: to be added...
+- Time per epoch: 1.17779s
 
 ##### Output logs:
 
 ```console
-to be added...
+Epoch  0  loss  6.205019358762985 correct 32
+Epoch  10  loss  5.180215307950451 correct 36
+Epoch  20  loss  3.723424148591026 correct 42
+Epoch  30  loss  3.300350712440616 correct 44
+Epoch  40  loss  5.431764612637972 correct 44
+Epoch  50  loss  3.7192093507913477 correct 44
+Epoch  60  loss  2.3636487795738415 correct 46
+Epoch  70  loss  3.491778728075561 correct 44
+Epoch  80  loss  2.551171230988059 correct 46
+Epoch  90  loss  2.2532564325592137 correct 45
+Epoch  100  loss  3.208339722079295 correct 47
+Epoch  110  loss  2.9154990349596317 correct 46
+Epoch  120  loss  1.2549874753311017 correct 46
+Epoch  130  loss  1.3719821591803945 correct 46
+Epoch  140  loss  0.9729328102413661 correct 46
+Epoch  150  loss  5.827326270287459 correct 46
+Epoch  160  loss  2.234313065390853 correct 49
+Epoch  170  loss  1.4749730885508958 correct 48
+Epoch  180  loss  2.2143812172228445 correct 50
+Epoch  190  loss  0.9687252035201401 correct 48
+Epoch  200  loss  2.368849910978388 correct 50
+Epoch  210  loss  1.0383005937251832 correct 49
+Epoch  220  loss  1.5048372250990183 correct 50
+Epoch  230  loss  1.775536991682416 correct 49
+Epoch  240  loss  0.38831596797569085 correct 49
+Epoch  250  loss  1.4555505990534372 correct 50
+Epoch  260  loss  0.8049984942164425 correct 49
+Epoch  270  loss  0.4385847380918566 correct 49
+Epoch  280  loss  0.6847496129136761 correct 49
+Epoch  290  loss  1.6972360409324392 correct 50
+Epoch  300  loss  0.7228985304416116 correct 49
+Epoch  310  loss  1.1846806471208169 correct 50
+Epoch  320  loss  1.7898855044428423 correct 50
+Epoch  330  loss  0.48959717731317753 correct 50
+Epoch  340  loss  0.6077705085897633 correct 49
+Epoch  350  loss  0.6741862097500342 correct 50
+Epoch  360  loss  1.6783786224608432 correct 50
+Epoch  370  loss  0.33471696186174715 correct 50
+Epoch  380  loss  1.1627244142300284 correct 50
+Epoch  390  loss  0.6058339735650807 correct 50
+Epoch  400  loss  0.45157040575198176 correct 50
+Epoch  410  loss  0.23806473058936706 correct 49
+Epoch  420  loss  0.33443928808597406 correct 50
+Epoch  430  loss  0.28051771172410916 correct 50
+Epoch  440  loss  1.2031263008583006 correct 49
+Epoch  450  loss  0.043688731096439316 correct 50
+Epoch  460  loss  0.11221581169288898 correct 50
+Epoch  470  loss  1.0812354694829813 correct 50
+Epoch  480  loss  0.9510734182820895 correct 50
+Epoch  490  loss  0.20861599565162825 correct 50
+Time per epoch: 1.1777940487861633 seconds
 ```
 
 ### Task 3.5.4: Model Training with Large Size of Hidden Layer
@@ -786,10 +979,251 @@ Time per epoch: 0.2528335914611816 seconds
 
 ##### Resulted Time Per Epoch
 
-- Time per epoch: to be added...
+- Time per epoch: 1.24750s
 
 ##### Output logs:
 
 ```console
-to be added...
+Epoch  0  loss  10.05313807781094 correct 26
+Epoch  10  loss  3.8135434083125532 correct 46
+Epoch  20  loss  6.507041435145726 correct 40
+Epoch  30  loss  2.119702682673805 correct 47
+Epoch  40  loss  2.0397909976170476 correct 44
+Epoch  50  loss  6.974146543635704 correct 43
+Epoch  60  loss  2.120745473311561 correct 47
+Epoch  70  loss  4.029753638133755 correct 45
+Epoch  80  loss  1.7683225294716847 correct 48
+Epoch  90  loss  1.5687717047594631 correct 44
+Epoch  100  loss  1.877949742603461 correct 48
+Epoch  120  loss  0.5991629919022536 correct 49
+Epoch  130  loss  1.3391765385846073 correct 48
+Epoch  140  loss  2.464845516522634 correct 48
+Epoch  150  loss  0.710045782015003 correct 49
+Epoch  160  loss  0.723776159857224 correct 49
+Epoch  170  loss  0.8785253912049443 correct 49
+Epoch  180  loss  0.29353029642493333 correct 49
+Epoch  190  loss  2.2368757290648347 correct 47
+Epoch  200  loss  1.2557300575235688 correct 49
+Epoch  210  loss  0.5371448167250807 correct 49
+Epoch  220  loss  0.9816663915547967 correct 50
+Epoch  230  loss  0.9399232803936861 correct 49
+Epoch  240  loss  0.8637495304249716 correct 49
+Epoch  250  loss  0.7929112163948498 correct 49
+Epoch  260  loss  0.6131760827278403 correct 49
+Epoch  270  loss  1.3650862995594562 correct 50
+Epoch  280  loss  0.30360841977967884 correct 49
+Epoch  290  loss  0.5954259992343922 correct 49
+Epoch  300  loss  0.9410958088879625 correct 49
+Epoch  310  loss  0.3182389321917214 correct 49
+Epoch  320  loss  0.47326515266068514 correct 50
+Epoch  330  loss  0.4437587652681386 correct 49
+Epoch  340  loss  2.692662996083104 correct 49
+Epoch  350  loss  0.39734945814654055 correct 49
+Epoch  360  loss  0.24320455127837814 correct 49
+Epoch  370  loss  0.13416345631640908 correct 49
+Epoch  380  loss  1.930720278549367 correct 49
+Epoch  390  loss  1.107657953499326 correct 49
+Epoch  400  loss  0.18363486914016647 correct 49
+Epoch  410  loss  0.534463081395307 correct 49
+Epoch  420  loss  1.0584338977353351 correct 49
+Epoch  430  loss  0.12009261615736083 correct 49
+Epoch  440  loss  0.24193081257738497 correct 49
+Epoch  450  loss  0.16500148667858117 correct 49
+Epoch  460  loss  1.8701333173758048 correct 49
+Epoch  470  loss  1.0529601845988248 correct 49
+Epoch  480  loss  1.9649367888081466 correct 49
+Epoch  490  loss  0.04352877358872541 correct 49
+Time per epoch: 1.2474972896575929 seconds
+```
+
+## References
+
+### Testing results for Assignment 3.3
+
+#### Command used:
+
+```bash
+!cd $DIR; pytest -m task3_3
+```
+
+#### Output logs:
+
+```console
+======================================= test session starts ========================================
+platform linux -- Python 3.11.10, pytest-8.3.2, pluggy-1.5.0
+rootdir: /content/mod3-Stephen0512
+configfile: pyproject.toml
+plugins: env-1.1.4, hypothesis-6.54.0
+collected 117 items / 60 deselected / 57 selected
+
+tests/test_tensor_general.py .........................................................       [100%]
+
+========================================= warnings summary =========================================
+tests/test_tensor_general.py: 16 warnings
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 1 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py: 4268 warnings
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/cudadrv/devicearray.py:888: NumbaPerformanceWarning: Host array used in CUDA kernel will incur copy overhead to/from device.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py: 11 warnings
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 2 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_one_args[cuda-fn4]
+tests/test_tensor_general.py::test_one_args[cuda-fn11]
+tests/test_tensor_general.py::test_one_args[cuda-fn12]
+tests/test_tensor_general.py::test_one_derivative[cuda-fn0]
+tests/test_tensor_general.py::test_one_derivative[cuda-fn0]
+tests/test_tensor_general.py::test_one_derivative[cuda-fn1]
+tests/test_tensor_general.py::test_one_derivative[cuda-fn6]
+tests/test_tensor_general.py::test_sum_practice2
+tests/test_tensor_general.py::test_two_grad_broadcast[cuda-fn4]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 3 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_one_derivative[cuda-fn0]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 6 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_one_derivative[cuda-fn0]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 27 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_one_derivative[cuda-fn0]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 9 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_one_derivative[cuda-fn0]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 4 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_one_derivative[cuda-fn0]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 12 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_one_derivative[cuda-fn0]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 18 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_one_derivative[cuda-fn7]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 8 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_sum_practice_other_dims
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 16 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=================== 57 passed, 60 deselected, 4312 warnings in 177.69s (0:02:57) ===================
+```
+
+### Testing results for Assignment 3.4
+
+#### Command used:
+
+```bash
+!cd $DIR; pytest -m task3_4
+```
+
+#### Output logs:
+
+```console
+======================================= test session starts ========================================
+platform linux -- Python 3.11.10, pytest-8.3.2, pluggy-1.5.0
+rootdir: /content/mod3-Stephen0512
+configfile: pyproject.toml
+plugins: env-1.1.4, hypothesis-6.54.0
+collected 117 items / 110 deselected / 7 selected
+
+tests/test_tensor_general.py .......                                                         [100%]
+
+========================================= warnings summary =========================================
+tests/test_tensor_general.py::test_mul_practice1
+tests/test_tensor_general.py::test_mul_practice3
+tests/test_tensor_general.py::test_mul_practice3
+tests/test_tensor_general.py::test_bmm[cuda]
+tests/test_tensor_general.py::test_bmm[cuda]
+tests/test_tensor_general.py::test_bmm[cuda]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 1 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py: 111 warnings
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/cudadrv/devicearray.py:888: NumbaPerformanceWarning: Host array used in CUDA kernel will incur copy overhead to/from device.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_mul_practice4
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 35 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_mul_practice4
+tests/test_tensor_general.py::test_bmm[cuda]
+tests/test_tensor_general.py::test_bmm[cuda]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 4 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_mul_practice5
+tests/test_tensor_general.py::test_bmm[cuda]
+tests/test_tensor_general.py::test_bmm[cuda]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 8 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_bmm[cuda]
+tests/test_tensor_general.py::test_bmm[cuda]
+tests/test_tensor_general.py::test_bmm[cuda]
+tests/test_tensor_general.py::test_bmm[cuda]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 2 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_bmm[cuda]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 16 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_bmm[cuda]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 3 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_bmm[cuda]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 24 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_bmm[cuda]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 12 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_bmm[cuda]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 36 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_bmm[cuda]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 32 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_bmm[cuda]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 18 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_bmm[cuda]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 48 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_bmm[cuda]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 27 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_bmm[cuda]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 5 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_bmm[cuda]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 6 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+tests/test_tensor_general.py::test_bmm[cuda]
+  /usr/local/lib/python3.11/dist-packages/numba/cuda/dispatcher.py:536: NumbaPerformanceWarning: Grid size 64 will likely result in GPU under-utilization due to low occupancy.
+    warn(NumbaPerformanceWarning(msg))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+========================= 7 passed, 110 deselected, 140 warnings in 12.31s =========================
 ```
