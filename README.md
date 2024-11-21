@@ -33,7 +33,7 @@ The files that will be synced are:
 
 ## Task 3.1 & Task 3.2 Parallel Check Output:
 
-The terminal command used to run the parallel analytics script parallel_check.py provided in the repository is:
+The terminal command used to run the parallel analytics script ```parallel_check.py``` provided in the repository is:
 
 ```bash
 python project/parallel_check.py
